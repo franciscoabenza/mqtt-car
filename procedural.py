@@ -16,11 +16,7 @@ client = mqtt.Client(clientName)
 client.on_connect = on_connect
 client.on_message = on_message
 
-
-client.connect("10.120.0.81", 1883, 60)
-
-
-
+client.connect("192.168.1.60", 1883, 60)
 
 
 def main():
@@ -50,30 +46,23 @@ def call_forward(char):
     print('FORWARDS')
     client.publish("robocar","F")
 
-
 def call_backward(char):
     print('BACK')
     client.publish("robocar","B")
-
 
 def call_left(char):
     print('LEFT')
     client.publish("robocar","L")
 
-
-
 def call_right(char):
     print('RIGHT')
     client.publish("robocar", "R")
-
 
 def call_quit():
     print('quit')
     call_stop('x')
     quit(0)
 
-
 main()
-
 
 client.loop_forever()
