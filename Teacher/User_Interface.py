@@ -2,7 +2,7 @@
 
 from os import system
 
-import msvcrt
+import getch
 
 class User_Interface:
 
@@ -45,23 +45,22 @@ class Terminal_Interface(User_Interface):
     print('----------------------', self.__RC.Get_Interface_Type(), '------------------------')
 
   def Read_Key(self):
-    if msvcrt.kbhit():
-      bytekey = msvcrt.getch()
-      if bytekey == b'\xe0':
-        bytekey = msvcrt.getch() #Special key - read again
+    key = getch.getch()
+    
+    if key == 'q':
+      return 'q'
+    elif key == 'w':
+      return 'Arrow_Up'
+    elif key == 's':
+      return 'Arrow_Down'
+    elif key == 'd':
+      return 'Arrow_Right'
+    elif key == 'a':
+      return 'Arrow_Left'
+    else:
+      print("YOU GOT A REALEASE 🎉")
+      return 'p'
 
-        key = bytekey.decode('ASCII')
-
-        if key == 'H':
-          return 'Arrow_Up'
-        elif key == 'P':
-          return 'Arrow_Down'
-        elif key == 'M':
-          return 'Arrow_Right'
-        elif key == 'K':
-          return 'Arrow_Left'
-      else:
-        return bytekey.decode('ASCII') #Anything else   
 
 class Web_Interface(User_Interface):
   def __init__(self,RC):
