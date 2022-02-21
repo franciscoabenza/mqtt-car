@@ -7,9 +7,7 @@
 #define Left_Mot_Forw 2
 #define Left_Mot_Backw 14
 
-
 int BUILTIN_LED = 2;  //new
-
 
 
 // Update these with values suitable for your network.
@@ -23,9 +21,6 @@ PubSubClient client(espClient);
 long lastMsg = 0;
 char msg[50];
 int value = 0;
-
-
-
 
 void setup_wifi() {
 

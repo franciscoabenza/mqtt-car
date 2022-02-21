@@ -1,7 +1,25 @@
 # The Motion Control Class definitions
 from enum import Enum
+import paho.mqtt.client as mqtt
 
-#import paho.mqtt.client as mqtt
+
+
+def on_connect(client, userdata, flags, rc):
+  print("connected  with code" + str(rc))
+  client.subscribe("robocar")
+
+def on_message(client, userdata, msg):
+  print(msg.topic + "  " + str(msg.payload))
+
+clientName = "fran"
+client = mqtt.Client(clientName)
+
+client.on_connect = on_connect
+client.on_message = on_message
+
+client.connect("10.120.0.81", 1883, 60)
+
+
 
 class DriveStates(Enum):
   STOP     = 0
@@ -57,21 +75,47 @@ class Drive_Unit:
       action = DriveActions.get(Drive_State)
       action(Speed)
       self.__Last_Drive_State = Drive_State
-    
-  def __Drive_Stop(self, speed):    #This function made with a dummy speed because the action lookup
-    #insert MQTT stop message here  #need the same number of parameters.  
-    self.__speed = speed          
-    print('Motor Stop')
+
+  def __Drive_Stop(self, speed):    #This function made with a dummy speed because the action lookup 
+    self.__speed = speed
+
+    isLeft = self.__Name == "LeftDrive"
+    isRight = self.__Name == "RightDrive"
+    self.__speed = speed
+    if isLeft:
+      print("SL")
+      client.publish("robocar","LS")
+    elif isRight:
+      print("SR")
+      client.publish("robocar","RS")
+      
     
   def __Motor_forward(self, speed):
     print('Motor Forward')
+    isLeft = self.__Name == "LeftDrive"
+    isRight = self.__Name == "RightDrive"
     self.__speed = speed
-    #Insert MQTT forward message here
+    if isLeft:
+      print("FL")
+      client.publish("robocar","LF")
+    elif isRight:
+      print("FR")
+      client.publish("robocar","RF")
+
 
   def __Motor_backward(self, speed):
     print('Motor Backward')
     self.__speed = speed
-    #Insert MQTT Backward message here
+    isLeft = self.__Name == "LeftDrive"
+    isRight = self.__Name == "RightDrive"
+
+    if isLeft:
+      print("BL")
+      client.publish("robocar","LB")
+    elif isRight:
+      print("BR")
+      client.publish("robocar","RB")
+
 
   def Get_Drive_State(self):
     return self.__Drive_State

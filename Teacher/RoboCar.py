@@ -64,7 +64,7 @@ class RoboCar:
 
     quit = False
     Stop_Count = 0
-    STOPLIMIT = 1000
+    STOPLIMIT = 0 #used to be 1000 🇩🇪
     
     actions = {States.STOP:     self.Stop,
                States.LEFT:     self.GoLeft,
@@ -86,7 +86,8 @@ class RoboCar:
       elif key == 'Arrow_Right':
         self.Set_State(States.RIGHT)
 
-      else:
+
+      else:                                    #The problem I got here is that it doesnt enter the else on realese I have to click another key
         Stop_Count += 1
         if Stop_Count > STOPLIMIT:
           self.Set_State(States.STOP)

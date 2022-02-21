@@ -6,7 +6,6 @@ def on_connect(client, userdata, flags, rc):
   print("connected  with code" + str(rc))
   client.subscribe("robocar")
 
-
 def on_message(client, userdata, msg):
   print(msg.topic + "  " + str(msg.payload))
 
@@ -35,12 +34,10 @@ def main():
     keyboard.on_press_key('right', call_right)
     keyboard.on_release_key('right', call_stop)
 
-
 def call_stop(char):
     print('STOP')
 
     client.publish("robocar", "S")
-
 
 def call_forward(char):
     print('FORWARDS')
