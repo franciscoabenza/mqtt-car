@@ -4,7 +4,7 @@ import paho.mqtt.client as mqtt
 
 def on_connect(client, userdata, flags, rc):
   print("connected  with code" + str(rc))
-  client.subscribe("robocar")
+  client.subscribe("Nikola")
 
 def on_message(client, userdata, msg):
   print(msg.topic + "  " + str(msg.payload))
@@ -15,7 +15,7 @@ client = mqtt.Client(clientName)
 client.on_connect = on_connect
 client.on_message = on_message
 
-client.connect("192.168.1.60", 1883, 60)
+client.connect("10.120.0.225", 1883, 60)
 
 
 def main():
@@ -33,27 +33,31 @@ def main():
     keyboard.on_release_key('left', call_stop)
     keyboard.on_press_key('right', call_right)
     keyboard.on_release_key('right', call_stop)
+    keyboard.on_press_key('p', call_right)
 
 def call_stop(char):
     print('STOP')
 
-    client.publish("robocar", "S")
+    client.publish("Nikola", "S")
 
 def call_forward(char):
     print('FORWARDS')
-    client.publish("robocar","F")
+    client.publish("Nikola","B")
 
 def call_backward(char):
     print('BACK')
-    client.publish("robocar","B")
+    client.publish("Nikola","F")
 
 def call_left(char):
     print('LEFT')
-    client.publish("robocar","L")
+    client.publish("Nikola","L")
 
 def call_right(char):
     print('RIGHT')
-    client.publish("robocar", "R")
+    client.publish("Nikola", "R")
+def call_data(char):
+    print('RIGHT')
+    client.publish("Nikola", "P")
 
 def call_quit():
     print('quit')

@@ -1,4 +1,5 @@
 #The RoboCar Class definitions
+from itertools import count
 from User_Interface import User_Interface, Terminal_Interface, Web_Interface
 from Motion_Control import Motion_Control
 from enum import Enum
@@ -9,6 +10,8 @@ class States(Enum):
   RIGHT    = 2
   FORWARD  = 3
   BACKWARD = 4
+  #CURVE_L = 5
+  #CURVE_R = 6
   
 class RoboCar:
 
@@ -64,17 +67,21 @@ class RoboCar:
 
     quit = False
     Stop_Count = 0
-    STOPLIMIT = 0 #used to be 1000 🇩🇪
+    STOPLIMIT = 1000 #used to be 1000 🇩🇪
     
     actions = {States.STOP:     self.Stop,
                States.LEFT:     self.GoLeft,
                States.RIGHT:    self.GoRight,
                States.FORWARD:  self.GoForward,
-               States.BACKWARD: self.GoBackward}
+               States.BACKWARD: self.GoBackward,}
+               #States.CURVE_L: self.CurveLeft,
+               #States.CURVE_R: self.CurveRight}
 
     while not quit:
+      
       key = self.MyFace.Read_Key()
-      if key == 'q':
+  
+      if key == 'esc':
         quit = True
   
       if key == 'Arrow_Up':
@@ -85,13 +92,16 @@ class RoboCar:
         self.Set_State(States.LEFT)
       elif key == 'Arrow_Right':
         self.Set_State(States.RIGHT)
-
-
+      #elif key == 'Curve_Left':
+      #  self.Set_State(States.CURVE_L)
+      #elif key == 'Curve_Right':
+      #  self.Set_State(States.CURVE_R)
+      
       else:                                    #The problem I got here is that it doesnt enter the else on realese I have to click another key
         Stop_Count += 1
         if Stop_Count > STOPLIMIT:
           self.Set_State(States.STOP)
           Stop_Count = 0
-
+      
       action = actions.get(self.__State)
       action()

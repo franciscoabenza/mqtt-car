@@ -3,6 +3,7 @@
 from os import system
 
 import getch
+import keyboard as kb
 
 class User_Interface:
 
@@ -45,21 +46,28 @@ class Terminal_Interface(User_Interface):
     print('----------------------', self.__RC.Get_Interface_Type(), '------------------------')
 
   def Read_Key(self):
-    key = getch.getch()
-    
-    if key == 'q':
-      return 'q'
-    elif key == 'w':
-      return 'Arrow_Up'
-    elif key == 's':
-      return 'Arrow_Down'
-    elif key == 'd':
-      return 'Arrow_Right'
-    elif key == 'a':
-      return 'Arrow_Left'
-    else:
-      print("YOU GOT A REALEASE 🎉")
-      return 'p'
+
+    if (kb.is_pressed('w')):
+        if(kb.is_pressed('w+a')):
+            return 'Curve_Left'
+            
+        elif(kb.is_pressed('w+d')):
+            return 'Curve_Right'
+        else:
+            return 'Arrow_Up'
+
+    elif kb.is_pressed('s'):
+          return 'Arrow_Down'
+            
+    elif kb.is_pressed('a'):
+        return 'Arrow_Left'
+
+    elif kb.is_pressed('d'):
+        return 'Arrow_Right'
+    elif kb.is_pressed('esc'):
+        return 'esc'
+    #sleep(0.05)   #remove? 
+
 
 
 class Web_Interface(User_Interface):
